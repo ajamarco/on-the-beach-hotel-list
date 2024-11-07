@@ -3,6 +3,8 @@ import hotelData from "./hotelData";
 import Hotels from "./components/Hotels";
 import SortSelection from "./components/SortSelection";
 
+import "./App.scss";
+
 const App = () => {
   const [hotels, setHotels] = useState([]);
   const [sortMethod, setSortMethod] = useState("price");
@@ -25,13 +27,13 @@ const App = () => {
   };
 
   return (
-    <div>
+    <main className="container">
       <SortSelection
         activeSort={sortMethod}
         handleSortChange={handleSortChange}
       />
       <Hotels hotels={hotels} />
-    </div>
+    </main>
   );
 };
 

@@ -1,0 +1,37 @@
+body {
+  background-image: url("https://static.onthebeach.co.uk/fe-code-test/background.png");
+}
+
+/*container div*/
+.container {
+  display: grid;
+  grid-template-columns: 400px 1000px;
+  gap: 50px;
+  padding: 3rem;
+  justify-content: center;
+}
+
+/*media query*/
+@media (max-width: 1200px) {
+  .container {
+    grid-template-columns: 200px 700px;
+  }
+}
+
+@media (max-width: 1000px) {
+  body {
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .container {
+    grid-template-columns: 200px 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .container {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+}
