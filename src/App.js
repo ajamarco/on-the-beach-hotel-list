@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import hotelData from "./hotelData";
 import Hotels from "./components/Hotels";
+import SortSelection from "./components/SortSelection";
 
 const App = () => {
   const [hotels, setHotels] = useState([]);
@@ -19,8 +20,16 @@ const App = () => {
     fetchHotels();
   }, []);
 
+  const handleSortChange = (sortBy) => {
+    setSortMethod(sortBy);
+  };
+
   return (
     <div>
+      <SortSelection
+        activeSort={sortMethod}
+        handleSortChange={handleSortChange}
+      />
       <Hotels hotels={hotels} />
     </div>
   );
