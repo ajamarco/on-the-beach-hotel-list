@@ -1,6 +1,6 @@
 import "../styles/SortButton.scss";
 
-const SortButton = ({ active, clickHandler }) => {
+const SortButton = ({ active, clickHandler, SortBy, icon }) => {
   const handleClick = () => {
     if (!active) clickHandler(SortBy);
   };
