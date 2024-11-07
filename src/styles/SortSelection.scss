@@ -1,0 +1,20 @@
+.sort_selection {
+  display: grid;
+  grid-template-columns: auto;
+  align-content: flex-start;
+  row-gap: 2px;
+}
+
+@media (max-width: 1000px) {
+  .sort_selection {
+    grid-template-columns: auto;
+    justify-content: space-between;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 700px) {
+  .sort_selection {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
