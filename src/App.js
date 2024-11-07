@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import hotelData from "./hotelData";
+import Hotels from "./components/Hotels";
 
 const App = () => {
   const [hotels, setHotels] = useState([]);
@@ -18,7 +19,11 @@ const App = () => {
     fetchHotels();
   }, []);
 
-  return <div>App</div>;
+  return (
+    <div>
+      <Hotels hotels={hotels} />
+    </div>
+  );
 };
 
 export default App;
