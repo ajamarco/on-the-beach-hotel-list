@@ -7,7 +7,7 @@ import "./App.scss";
 
 const App = () => {
   const [hotels, setHotels] = useState([]);
-  const [sortMethod, setSortMethod] = useState("price");
+  const [sortMethod, setSortMethod] = useState("");
 
   useEffect(() => {
     async function fetchHotels() {
@@ -21,6 +21,29 @@ const App = () => {
     }
     fetchHotels();
   }, []);
+
+  useEffect(() => {
+    console.log("sort method changed", sortMethod);
+    if (sortMethod === "Name") {
+      setHotels(
+        [...hotels].sort((a, b) => a.resort.name.localeCompare(b.resort.name))
+      );
+    }
+    if (sortMethod === "Price") {
+      setHotels(
+        [...hotels].sort(
+          (a, b) =>
+            a.bookingDetails.price.amount - b.bookingDetails.price.amount
+        )
+      );
+    }
+    if (sortMethod === "Star Rating") {
+      setHotels(
+        [...hotels].sort((a, b) => b.resort.starRating - a.resort.starRating)
+      );
+    }
+    console.log("hotels", hotels);
+  }, [sortMethod]);
 
   const handleSortChange = (sortBy) => {
     setSortMethod(sortBy);
