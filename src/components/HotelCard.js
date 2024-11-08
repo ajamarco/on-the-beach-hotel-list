@@ -5,7 +5,8 @@ import { GoStarFill } from "react-icons/go";
 import "../styles/HotelCard.scss";
 
 const HotelCard = ({ hotel, flight, bookingDetails }) => {
-  console.log("inside card", flight);
+  console.log("inside card hotel", hotel);
+  console.log("inside card booking", bookingDetails);
   const [showOverview, setShowOverview] = useState(false);
 
   const renderOpenedOverview = () => {
@@ -34,8 +35,11 @@ const HotelCard = ({ hotel, flight, bookingDetails }) => {
     return "hotel ocuppation";
   };
 
-  const displayPrice = () => {
-    return "price";
+  const displayPrice = (amount, currency) => {
+    return amount.toLocaleString("en-GB", {
+      style: "currency",
+      currency: currency,
+    });
   };
 
   return (
@@ -71,7 +75,12 @@ const HotelCard = ({ hotel, flight, bookingDetails }) => {
         </div>
         <button className="hotel__book_now">
           <p>Book Now</p>
-          <h1>{displayPrice()}</h1>
+          <h1>
+            {displayPrice(
+              bookingDetails.price.amount,
+              bookingDetails.price.currency
+            )}
+          </h1>
         </button>
       </div>
       <div
