@@ -1,23 +1,32 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy } from "react";
 import hotelData from "./hotelData";
-import Hotels from "./components/Hotels";
 import SortSelection from "./components/SortSelection";
 
 import "./App.scss";
+import Loading from "./components/Loading";
+
+const Hotels = lazy(() => import("./components/Hotels"));
 
 const App = () => {
   const [hotels, setHotels] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [sortMethod, setSortMethod] = useState("");
   const [sortDirection, setSortDirection] = useState("asc");
 
   useEffect(() => {
     async function fetchHotels() {
       try {
-        const data = hotelData;
+        const data = await new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(hotelData);
+          }, 5000);
+        });
         console.log(data);
         setHotels(data);
       } catch (error) {
         console.error("error fetching hotel data", error);
+      } finally {
+        setLoading(false);
       }
     }
     fetchHotels();
@@ -82,7 +91,7 @@ const App = () => {
         activeSort={sortMethod}
         handleSortChange={handleSortChange}
       />
-      <Hotels hotels={hotels} />
+      {loading ? <Loading /> : <Hotels hotels={hotels} />}
     </main>
   );
 };
