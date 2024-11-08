@@ -31,8 +31,22 @@ const HotelCard = ({ hotel, flight, bookingDetails }) => {
     );
   };
 
-  const displayHotelOcupation = () => {
-    return "hotel ocuppation";
+  const displayHotelOcupation = ({ adults, children, infants }) => {
+    const adultsText = `${adults} adult${adults !== 1 ? "s" : ""}`;
+    const childrenText = children
+      ? `${children} child${children !== 1 ? "ren" : ""}`
+      : "";
+    const infantsText = infants
+      ? ` and ${infants} infant${infants !== 1 ? "s" : ""}`
+      : "";
+
+    if (!children && !infants) {
+      return `${adultsText}`;
+    }
+
+    return `${adultsText} ${
+      infants ? "," : "and"
+    } ${childrenText} ${infantsText}`;
   };
 
   const displayPrice = (amount, currency) => {
@@ -64,7 +78,7 @@ const HotelCard = ({ hotel, flight, bookingDetails }) => {
           ))}
         </p>
         <div className="hotel__info__details">
-          <p>{displayHotelOcupation()}</p>
+          <p>{displayHotelOcupation(bookingDetails.party)}</p>
           <p>
             <b>{flight.departureDate}</b> for{" "}
             <b>{bookingDetails.lengthOfStay}</b>
