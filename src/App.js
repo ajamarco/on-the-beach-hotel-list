@@ -1,4 +1,4 @@
-import { useState, useEffect, lazy } from "react";
+import { useState, useEffect, lazy, useMemo, useCallback } from "react";
 import hotelData from "./hotelData";
 import SortSelection from "./components/SortSelection";
 
@@ -10,8 +10,10 @@ const Hotels = lazy(() => import("./components/Hotels"));
 const App = () => {
   const [hotels, setHotels] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [sortMethod, setSortMethod] = useState("");
-  const [sortDirection, setSortDirection] = useState("asc");
+  const [sortConfig, setSortConfig] = useState({
+    method: "",
+    direction: "asc",
+  });
 
   useEffect(() => {
     async function fetchHotels() {
@@ -21,7 +23,6 @@ const App = () => {
             resolve(hotelData);
           }, 5000);
         });
-        console.log(data);
         setHotels(data);
       } catch (error) {
         console.error("error fetching hotel data", error);
@@ -32,66 +33,48 @@ const App = () => {
     fetchHotels();
   }, []);
 
-  useEffect(() => {
-    console.log("sort method changed", sortMethod);
-    if (sortMethod === "Name") {
-      //based on the sort direction, sort the hotels by name
-      setHotels(
-        [...hotels].sort((a, b) => {
-          if (sortDirection === "asc") {
-            return a.resort.name.localeCompare(b.resort.name);
-          } else {
-            return b.resort.name.localeCompare(a.resort.name);
-          }
-        })
-      );
-    }
-    if (sortMethod === "Price") {
-      //based on the sort direction, sort the hotels by price
-      setHotels(
-        [...hotels].sort((a, b) => {
-          if (sortDirection === "asc") {
-            return (
-              a.bookingDetails.price.amount - b.bookingDetails.price.amount
-            );
-          } else {
-            return (
-              b.bookingDetails.price.amount - a.bookingDetails.price.amount
-            );
-          }
-        })
-      );
-    }
-    if (sortMethod === "Star Rating") {
-      //based on the sort direction, sort the hotels by star rating
-      setHotels(
-        [...hotels].sort((a, b) => {
-          if (sortDirection === "asc") {
-            return a.resort.starRating - b.resort.starRating;
-          } else {
-            return b.resort.starRating - a.resort.starRating;
-          }
-        })
-      );
-    }
-    console.log("hotels", hotels);
-  }, [sortMethod, sortDirection]);
+  const sortedHotels = useMemo(() => {
+    if (!sortConfig.method) return hotels;
 
-  const handleSortChange = (sortBy) => {
-    setSortMethod(sortBy);
-    //if the current sortBy is the same as the previous one, change the sort direction
-    if (sortBy === sortMethod) {
-      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
-    }
-  };
+    const sorted = [...hotels].sort((a, b) => {
+      if (sortConfig.method === "Name") {
+        return sortConfig.direction === "asc"
+          ? a.resort.name.localeCompare(b.resort.name)
+          : b.resort.name.localeCompare(a.resort.name);
+      }
+      if (sortConfig.method === "Price") {
+        return sortConfig.direction === "asc"
+          ? a.bookingDetails.price.amount - b.bookingDetails.price.amount
+          : b.bookingDetails.price.amount - a.bookingDetails.price.amount;
+      }
+      if (sortConfig.method === "Star Rating") {
+        return sortConfig.direction === "asc"
+          ? a.resort.starRating - b.resort.starRating
+          : b.resort.starRating - a.resort.starRating;
+      }
+      return 0;
+    });
+
+    return sorted;
+  }, [hotels, sortConfig]);
+
+  const handleSortChange = useCallback((sortBy) => {
+    setSortConfig((prevConfig) => ({
+      method: sortBy,
+      direction:
+        prevConfig.method === sortBy && prevConfig.direction === "asc"
+          ? "desc"
+          : "asc",
+    }));
+  }, []);
 
   return (
     <main className="container">
       <SortSelection
-        activeSort={sortMethod}
+        activeSort={sortConfig.method}
         handleSortChange={handleSortChange}
       />
-      {loading ? <Loading /> : <Hotels hotels={hotels} />}
+      {loading ? <Loading /> : <Hotels hotels={sortedHotels} />}
     </main>
   );
 };
