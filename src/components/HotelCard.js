@@ -39,19 +39,19 @@ const HotelCard = ({ hotel, flight, bookingDetails }) => {
   };
 
   return (
-    <article className="trip">
+    <article className="hotel">
       <div
-        className="trip__image"
+        className="hotel__image"
         style={{ backgroundImage: `url(${hotel?.image?.url})` }}
       >
         <button
-          className="trip__show_overview"
+          className="hotel__show_overview"
           onClick={() => setShowOverview(!showOverview)}
         >
           {showOverview ? renderOpenedOverview() : renderClosedOverview()}
         </button>
       </div>
-      <div className="trip__info">
+      <div className="hotel__info">
         <h1>{hotel.name}</h1>
         <span>{hotel.countryName}</span>
         <p>
@@ -59,8 +59,8 @@ const HotelCard = ({ hotel, flight, bookingDetails }) => {
             <GoStarFill color="#FEDC07" />
           ))}
         </p>
-        <div className="trip__info__details">
-          <p>{displayHotelOcupation}</p>
+        <div className="hotel__info__details">
+          <p>{displayHotelOcupation()}</p>
           <p>
             <b>{flight.departureDate}</b> for{" "}
             <b>{bookingDetails.lengthOfStay}</b>
@@ -69,14 +69,14 @@ const HotelCard = ({ hotel, flight, bookingDetails }) => {
             departing from <b>{flight.departureAirport}</b>
           </p>
         </div>
-        <button className="trip__book_now">
+        <button className="hotel__book_now">
           <p>Book Now</p>
-          <h1>{displayPrice}</h1>
+          <h1>{displayPrice()}</h1>
         </button>
       </div>
       <div
-        className={`trip__overview ${
-          showOverview ? "trip__more_info" : "trip__more_info hide"
+        className={`hotel__overview ${
+          showOverview ? "hotel__more_info" : "hotel__more_info hide"
         }`}
       >
         <p>{hotel.overview}</p>
