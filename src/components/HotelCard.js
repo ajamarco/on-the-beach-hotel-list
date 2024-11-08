@@ -5,8 +5,6 @@ import { GoStarFill } from "react-icons/go";
 import "../styles/HotelCard.scss";
 
 const HotelCard = ({ hotel, flight, bookingDetails }) => {
-  console.log("inside card hotel", hotel);
-  console.log("inside card booking", bookingDetails);
   const [showOverview, setShowOverview] = useState(false);
 
   const renderOpenedOverview = () => {
@@ -56,6 +54,25 @@ const HotelCard = ({ hotel, flight, bookingDetails }) => {
     });
   };
 
+  function displayDate(dateString) {
+    const date = new Date(dateString);
+
+    const day = date.getUTCDate();
+    const month = date.toLocaleString("en-GB", { month: "long" });
+    const year = date.getUTCFullYear();
+
+    const suffix =
+      day % 10 === 1 && day !== 11
+        ? "st"
+        : day % 10 === 2 && day !== 12
+        ? "nd"
+        : day % 10 === 3 && day !== 13
+        ? "rd"
+        : "th";
+
+    return `${day}${suffix} ${month} ${year}`;
+  }
+
   return (
     <article className="hotel">
       <div
@@ -80,8 +97,8 @@ const HotelCard = ({ hotel, flight, bookingDetails }) => {
         <div className="hotel__info__details">
           <p>{displayHotelOcupation(bookingDetails.party)}</p>
           <p>
-            <b>{flight.departureDate}</b> for{" "}
-            <b>{bookingDetails.lengthOfStay}</b>
+            <b>{displayDate(flight.departureDate)}</b> for{" "}
+            <b>{bookingDetails.lengthOfStay} days</b>
           </p>
           <p>
             departing from <b>{flight.departureAirport}</b>
