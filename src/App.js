@@ -2,7 +2,7 @@ import { useState, useEffect, lazy, useMemo, useCallback } from "react";
 import hotelData from "./hotelData";
 import SortSelection from "./components/SortSelection";
 
-import "./App.scss";
+import "./styles/App.scss";
 import Loading from "./components/Loading";
 
 const Hotels = lazy(() => import("./components/Hotels"));
@@ -18,14 +18,25 @@ const App = () => {
   useEffect(() => {
     async function fetchHotels() {
       try {
+        const response = await fetch(
+          "https://static.onthebeach.co.uk/fe-code-test/data.json"
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        setHotels(data);
+      } catch (error) {
+        console.error(
+          "Error fetching hotel data from URL, falling back to local data",
+          error
+        );
         const data = await new Promise((resolve) => {
           setTimeout(() => {
             resolve(hotelData);
-          }, 5000);
+          }, 2000);
         });
         setHotels(data);
-      } catch (error) {
-        console.error("error fetching hotel data", error);
       } finally {
         setLoading(false);
       }
