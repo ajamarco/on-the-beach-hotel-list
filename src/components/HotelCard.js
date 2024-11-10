@@ -1,35 +1,36 @@
-import { useState } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { FaChevronDown, FaChevronRight } from "react-icons/fa";
 import { GoStarFill } from "react-icons/go";
 
 import "../styles/HotelCard.scss";
 
+const renderOpenedOverview = () => (
+  <>
+    <p>
+      <b>Read less</b> about this hotel
+    </p>
+    <FaChevronDown />
+  </>
+);
+
+const renderClosedOverview = () => (
+  <>
+    <p>
+      <b>Read more</b> about this hotel
+    </p>
+    <FaChevronRight />
+  </>
+);
+
 const HotelCard = ({ hotel, flight, bookingDetails }) => {
   const [showOverview, setShowOverview] = useState(false);
 
-  const renderOpenedOverview = () => {
-    return (
-      <>
-        <p>
-          <b>Read less</b> about this hotel
-        </p>
-        <FaChevronDown />
-      </>
-    );
-  };
+  const toggleOverview = useCallback(() => {
+    setShowOverview((prev) => !prev);
+  }, []);
 
-  const renderClosedOverview = () => {
-    return (
-      <>
-        <p>
-          <b>Read more</b> about this hotel
-        </p>
-        <FaChevronRight />
-      </>
-    );
-  };
-
-  const displayHotelOcupation = ({ adults, children, infants }) => {
+  const displayHotelOcupation = useMemo(() => {
+    const { adults, children, infants } = bookingDetails.party;
     const adultsText = `${adults} adult${adults !== 1 ? "s" : ""}`;
     const childrenText = children
       ? `${children} child${children !== 1 ? "ren" : ""}`
@@ -45,17 +46,17 @@ const HotelCard = ({ hotel, flight, bookingDetails }) => {
     return `${adultsText} ${
       infants ? "," : "and"
     } ${childrenText} ${infantsText}`;
-  };
+  }, [bookingDetails.party]);
 
-  const displayPrice = (amount, currency) => {
-    return amount.toLocaleString("en-GB", {
+  const displayPrice = useMemo(() => {
+    return bookingDetails.price.amount.toLocaleString("en-GB", {
       style: "currency",
-      currency: currency,
+      currency: bookingDetails.price.currency,
     });
-  };
+  }, [bookingDetails.price]);
 
-  function displayDate(dateString) {
-    const date = new Date(dateString);
+  const displayDate = useMemo(() => {
+    const date = new Date(flight.departureDate);
 
     const day = date.getUTCDate();
     const month = date.toLocaleString("en-GB", { month: "long" });
@@ -71,7 +72,7 @@ const HotelCard = ({ hotel, flight, bookingDetails }) => {
         : "th";
 
     return `${day}${suffix} ${month} ${year}`;
-  }
+  }, [flight.departureDate]);
 
   return (
     <article className="hotel">
@@ -79,10 +80,7 @@ const HotelCard = ({ hotel, flight, bookingDetails }) => {
         className="hotel__image"
         style={{ backgroundImage: `url(${hotel?.image?.url})` }}
       >
-        <button
-          className="hotel__show_overview"
-          onClick={() => setShowOverview(!showOverview)}
-        >
+        <button className="hotel__show_overview" onClick={toggleOverview}>
           {showOverview ? renderOpenedOverview() : renderClosedOverview()}
         </button>
       </div>
@@ -91,14 +89,13 @@ const HotelCard = ({ hotel, flight, bookingDetails }) => {
         <span>{hotel.countryName}</span>
         <p>
           {Array.from({ length: hotel.starRating }, (_, index) => (
-            <GoStarFill color="#FEDC07" />
+            <GoStarFill key={index} color="#FEDC07" />
           ))}
         </p>
         <div className="hotel__info__details">
-          <p>{displayHotelOcupation(bookingDetails.party)}</p>
+          <p>{displayHotelOcupation}</p>
           <p>
-            <b>{displayDate(flight.departureDate)}</b> for{" "}
-            <b>{bookingDetails.lengthOfStay} days</b>
+            <b>{displayDate}</b> for <b>{bookingDetails.lengthOfStay} days</b>
           </p>
           <p>
             departing from <b>{flight.departureAirport}</b>
@@ -106,12 +103,7 @@ const HotelCard = ({ hotel, flight, bookingDetails }) => {
         </div>
         <button className="hotel__book_now">
           <p>Book Now</p>
-          <h1>
-            {displayPrice(
-              bookingDetails.price.amount,
-              bookingDetails.price.currency
-            )}
-          </h1>
+          <h1>{displayPrice}</h1>
         </button>
       </div>
       <div
