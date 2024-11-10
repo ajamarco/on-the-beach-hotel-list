@@ -7,7 +7,7 @@ import "../styles/HotelCard.scss";
 // Renders the "Read less" button with a down chevron icon
 const renderOpenedOverview = () => (
   <>
-    <p>
+    <p data-testid="showOverview">
       <b>Read less</b> about this hotel
     </p>
     <FaChevronDown />
@@ -17,7 +17,7 @@ const renderOpenedOverview = () => (
 // Renders the "Read more" button with a right chevron icon
 const renderClosedOverview = () => (
   <>
-    <p>
+    <p data-testid="showOverview">
       <b>Read more</b> about this hotel
     </p>
     <FaChevronRight />
@@ -48,9 +48,9 @@ const HotelCard = ({ hotel, flight, bookingDetails }) => {
       return `${adultsText}`;
     }
 
-    return `${adultsText} ${
+    return `${adultsText}${
       infants ? "," : "and"
-    } ${childrenText} ${infantsText}`;
+    } ${childrenText}${infantsText}`;
   }, [bookingDetails.party]);
 
   // Memoized function to format and display the price
@@ -95,7 +95,7 @@ const HotelCard = ({ hotel, flight, bookingDetails }) => {
       <div className="hotel__info">
         <h1>{hotel.name}</h1>
         <span>{hotel.countryName}</span>
-        <p>
+        <p data-testid="star-icon">
           {/* Display star rating */}
           {Array.from({ length: hotel.starRating }, (_, index) => (
             <GoStarFill key={index} color="#FEDC07" />
@@ -116,12 +116,8 @@ const HotelCard = ({ hotel, flight, bookingDetails }) => {
           <h1>{displayPrice}</h1>
         </button>
       </div>
-      <div
-        className={`hotel__overview ${
-          showOverview ? "hotel__more_info" : "hotel__more_info hide"
-        }`}
-      >
-        <p>{hotel.overview}</p>
+      <div className={`hotel__overview hotel__more_info`}>
+        {showOverview && <p>{hotel.overview}</p>}
       </div>
     </article>
   );
