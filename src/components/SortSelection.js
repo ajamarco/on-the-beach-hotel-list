@@ -14,6 +14,10 @@ const SortSelection = ({ activeSort, handleSortChange }) => {
     "Star Rating": <FaStar />,
   };
 
+  const clickHandler = (sortBy) => {
+    handleSortChange(sortBy);
+  };
+
   return (
     <aside className="sort_selection">
       {sortOptions.map((option, index) => (
@@ -21,7 +25,7 @@ const SortSelection = ({ activeSort, handleSortChange }) => {
           SortBy={option}
           key={index}
           active={option === activeSort}
-          clickHandler={(sortBy) => handleSortChange(sortBy)}
+          clickHandler={clickHandler}
           icon={sortIcons[option]}
         />
       ))}
