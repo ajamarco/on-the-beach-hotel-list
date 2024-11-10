@@ -38,6 +38,7 @@ const SortButton = ({ active, clickHandler, SortBy }) => {
     <div
       className={active ? "sort__button sort__button__active" : "sort__button"}
       onClick={handleClick} // Attach click handler to the button
+      data-testid={`sort_by_${SortBy}`} // Add a test id to the button
     >
       <p>
         Sort by <span>{SortBy}</span>
