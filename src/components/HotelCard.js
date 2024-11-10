@@ -4,6 +4,7 @@ import { GoStarFill } from "react-icons/go";
 
 import "../styles/HotelCard.scss";
 
+// Renders the "Read less" button with a down chevron icon
 const renderOpenedOverview = () => (
   <>
     <p>
@@ -13,6 +14,7 @@ const renderOpenedOverview = () => (
   </>
 );
 
+// Renders the "Read more" button with a right chevron icon
 const renderClosedOverview = () => (
   <>
     <p>
@@ -23,12 +25,15 @@ const renderClosedOverview = () => (
 );
 
 const HotelCard = ({ hotel, flight, bookingDetails }) => {
+  // State to manage the visibility of the hotel overview
   const [showOverview, setShowOverview] = useState(false);
 
+  // Toggles the visibility of the hotel overview
   const toggleOverview = useCallback(() => {
     setShowOverview((prev) => !prev);
   }, []);
 
+  // Memoized function to display the hotel occupation details
   const displayHotelOcupation = useMemo(() => {
     const { adults, children, infants } = bookingDetails.party;
     const adultsText = `${adults} adult${adults !== 1 ? "s" : ""}`;
@@ -48,6 +53,7 @@ const HotelCard = ({ hotel, flight, bookingDetails }) => {
     } ${childrenText} ${infantsText}`;
   }, [bookingDetails.party]);
 
+  // Memoized function to format and display the price
   const displayPrice = useMemo(() => {
     return bookingDetails.price.amount.toLocaleString("en-GB", {
       style: "currency",
@@ -55,6 +61,7 @@ const HotelCard = ({ hotel, flight, bookingDetails }) => {
     });
   }, [bookingDetails.price]);
 
+  // Memoized function to format and display the departure date
   const displayDate = useMemo(() => {
     const date = new Date(flight.departureDate);
 
@@ -80,6 +87,7 @@ const HotelCard = ({ hotel, flight, bookingDetails }) => {
         className="hotel__image"
         style={{ backgroundImage: `url(${hotel?.image?.url})` }}
       >
+        {/* Button to toggle the hotel overview */}
         <button className="hotel__show_overview" onClick={toggleOverview}>
           {showOverview ? renderOpenedOverview() : renderClosedOverview()}
         </button>
@@ -88,6 +96,7 @@ const HotelCard = ({ hotel, flight, bookingDetails }) => {
         <h1>{hotel.name}</h1>
         <span>{hotel.countryName}</span>
         <p>
+          {/* Display star rating */}
           {Array.from({ length: hotel.starRating }, (_, index) => (
             <GoStarFill key={index} color="#FEDC07" />
           ))}
@@ -101,6 +110,7 @@ const HotelCard = ({ hotel, flight, bookingDetails }) => {
             departing from <b>{flight.departureAirport}</b>
           </p>
         </div>
+        {/* Button to book the hotel */}
         <button className="hotel__book_now">
           <p>Book Now</p>
           <h1>{displayPrice}</h1>

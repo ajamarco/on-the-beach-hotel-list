@@ -1,5 +1,4 @@
-import React from "react";
-import "../styles/Loading.scss"; // Optional: For styling the spinner
+import "../styles/Loading.scss";
 
 const Loading = () => {
   return (

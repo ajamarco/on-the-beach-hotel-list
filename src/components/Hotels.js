@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import HotelCard from "./HotelCard";
 
 const Hotels = ({ hotels }) => {
+  // Memoized function to render hotel cards and return a HotelCard component for each hotel
   const renderHotelCards = useMemo(() => {
     return hotels.map((hotel) => (
       <HotelCard
@@ -14,6 +15,7 @@ const Hotels = ({ hotels }) => {
     ));
   }, [hotels]);
 
+  // Render the section containing all hotel cards
   return <section className="trips">{renderHotelCards}</section>;
 };
 

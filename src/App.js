@@ -5,9 +5,11 @@ import SortSelection from "./components/SortSelection";
 import "./styles/App.scss";
 import Loading from "./components/Loading";
 
+// Lazy load the Hotels component in case we have a large number of hotels
 const Hotels = lazy(() => import("./components/Hotels"));
 
 const App = () => {
+  // Create states for the hotels list, loading, and sorting configuration
   const [hotels, setHotels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sortConfig, setSortConfig] = useState({
@@ -15,6 +17,7 @@ const App = () => {
     direction: "asc",
   });
 
+  // Fetch hotel data from the API or fallback to local data if the fetch fails
   useEffect(() => {
     async function fetchHotels() {
       try {
@@ -44,6 +47,7 @@ const App = () => {
     fetchHotels();
   }, []);
 
+  // Memoized function to sort hotels based on the sort configuration
   const sortedHotels = useMemo(() => {
     if (!sortConfig.method) return hotels;
 
@@ -69,6 +73,7 @@ const App = () => {
     return sorted;
   }, [hotels, sortConfig]);
 
+  // Callback function to handle changes in the sort selection
   const handleSortChange = useCallback((sortBy) => {
     setSortConfig((prevConfig) => ({
       method: sortBy,
