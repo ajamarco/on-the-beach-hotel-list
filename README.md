@@ -1,6 +1,6 @@
 # On The Beach Assessment
 
-Live demo: xxx
+Live demo: [https://eloquent-pavlova-74c20b.netlify.app/]
 
 This project is part of On The Beach's Frontend developer assessment.
 
@@ -9,7 +9,7 @@ It is a simple project that demonstrates how components can be assembled to form
 In the App.js file, I created a fetch call that will try to fetch data from the provided URL, but since the URL wasn't accessible due to some CORS policy, I decided to have a failsafe system in place, where a local file would be used to load the data from in case the URL fetch call fails.
 
 - Components can be found in /src/components.
-- Mock data can be found at /hotelData.js.
+- Mock data can be found at /hotelData.js (which will be used in case the fetch URL fails).
 - CSS files can be found in /src/styles.
 
 ### Components
