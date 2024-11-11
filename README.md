@@ -1,70 +1,41 @@
-# Getting Started with Create React App
+# On The Beach Assessment
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Live demo: xxx
 
-## Available Scripts
+This project is part of On The Beach's Frontend developer assessment.
 
-In the project directory, you can run:
+It is a simple project that demonstrates how components can be assembled to form a larger application. The client is expected to render it all.
 
-### `npm start`
+In the App.js file, I created a fetch call that will try to fetch data from the provided URL, but since the URL wasn't accessible due to some CORS policy, I decided to have a failsafe system in place, where a local file would be used to load the data from in case the URL fetch call fails.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Components can be found in /src/components.
+- Mock data can be found at /hotelData.js.
+- CSS files can be found in /src/styles.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Components
 
-### `npm test`
+There are 5 components in this project:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **SortSelection**: the sort menu.
+- **SortButton**: an individual Sort button for any of the 3 sorting capabilities.
+- **Hotels**: the container for trips.
+- **HotelCard**: an individual trip card.
+- **Loading**: A reusable Loading spinner component that can be reused if needed.
 
-### `npm run build`
+### Responsiveness
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The project also has a simple responsiveness system in place, since this wasn't in the design that was sent to me, so I decided to keep this simple.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Sorting
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+By clicking on any of the buttons on the left, the sorting is done by hotel name, price, or star rating (name from A to Z, price from lower to higher, and star rating from higher to lower). If the active sorting is clicked again, it will sort the data the other way around (name from Z to A, price from higher to lower, and star rating from lower to higher).
 
-### `npm run eject`
+### Future Implementations
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+As future implementations of this project, we could have:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Different types of filters (by location, star rating, date, etc.).
+- Different types of sorting (from Z to A - if clicked again on the 'sort by name' button -, price from higher to lower, etc.).
+- Improved responsiveness.
+- Improved compatibility, as I used flex grid to make the layout work. Maybe this won't work on some older browsers.
+- Adding additional information on each trip, as well as a Google Maps integration showing the location of the hotel on a map.
