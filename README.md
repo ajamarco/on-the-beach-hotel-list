@@ -34,8 +34,7 @@ By clicking on any of the buttons on the left, the sorting is done by hotel name
 
 As future implementations of this project, we could have:
 
-- Different types of filters (by location, star rating, date, etc.).
-- Different types of sorting (from Z to A - if clicked again on the 'sort by name' button -, price from higher to lower, etc.).
+- Different types of filters (by location, date, etc.).
 - Improved responsiveness.
 - Improved compatibility, as I used flex grid to make the layout work. Maybe this won't work on some older browsers.
 - Adding additional information on each trip, as well as a Google Maps integration showing the location of the hotel on a map.
