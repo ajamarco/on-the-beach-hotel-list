@@ -98,7 +98,7 @@ const HotelCard = ({ hotel, flight, bookingDetails }) => {
         <p data-testid="star-icon">
           {/* Display star rating */}
           {Array.from({ length: hotel.starRating }, (_, index) => (
-            <GoStarFill key={index} color="#FEDC07" />
+            <GoStarFill key={index} className="start_icon" />
           ))}
         </p>
         <div className="hotel__info__details">
